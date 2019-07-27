@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"./cmd"
+	"github.com/RyuseiNomi/makasete-choice-cli/cmd"
 )
 
 func main() {
