@@ -15,10 +15,10 @@ type Member struct {
 
 type Members []Member
 
-func shuffle() *cobra.Command {
+func do() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "shuffle",
-		Short: "shuffle member",
+		Use:   "do",
+		Short: "divide members to group",
 		Run: func(cmd *cobra.Command, args []string) {
 			groupNumber, _ := strconv.Atoi(args[0])
 			members := args[1:]
