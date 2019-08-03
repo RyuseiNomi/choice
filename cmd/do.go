@@ -30,14 +30,14 @@ func do() *cobra.Command {
 	return cmd
 }
 
-func doShuffle(groupNumber int, inputedMembers []string) {
+func doShuffle(groupNumber int, inputtedMembers []string) {
 	var members Members
-	//groupMaxCount := len(inputedMembers) / groupNumber
+	//groupMaxCount := len(inputtedMembers) / groupNumber
 
 	//membersの長さ分forを回して全員に番号をランダムで振る
-	for i := range inputedMembers {
+	for i := range inputtedMembers {
 		rand.Seed(time.Now().UnixNano()) //乱数の初期化
-		name := inputedMembers[i]
+		name := inputtedMembers[i]
 
 		var member = Member{
 			Name:  name,
