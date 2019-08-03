@@ -2,11 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
 	"math/rand"
 	"strconv"
 	"time"
-
-	"github.com/spf13/cobra"
 )
 
 type Member struct {
@@ -34,9 +33,9 @@ func doShuffle(groupNumber int, inputtedMembers []string) {
 	var members Members
 	//groupMaxCount := len(inputtedMembers) / groupNumber
 
+	rand.Seed(time.Now().UnixNano()) //乱数の初期化
 	//membersの長さ分forを回して全員に番号をランダムで振る
 	for i := range inputtedMembers {
-		rand.Seed(time.Now().UnixNano()) //乱数の初期化
 		name := inputtedMembers[i]
 
 		var member = Member{
