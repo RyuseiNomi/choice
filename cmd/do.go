@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"math/rand"
-	"sort"
 	"strconv"
 	"time"
 )
@@ -23,10 +22,7 @@ func do() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			groupNumber, _ := strconv.Atoi(args[0])
 			members := args[1:]
-			shuffledMembers := doShuffle(groupNumber, members)
-			sort.Slice(shuffledMembers, func(i, j int) bool {
-				return shuffledMembers[i].Group < shuffledMembers[j].Group
-			})
+			shuffledMembers := makeMembersMap(doShuffle(groupNumber, members))
 			fmt.Println(shuffledMembers)
 		},
 	}
@@ -51,4 +47,12 @@ func doShuffle(groupNumber int, inputtedMembers []string) Members {
 	}
 
 	return members
+}
+
+func makeMembersMap(members Members) map[int][]string {
+	membersMap := make(map[int][]string)
+	for i := 0; i < len(members); i += 1 {
+		membersMap[members[i].Group] = append(membersMap[members[i].Group], members[i].Name)
+	}
+	return membersMap
 }
