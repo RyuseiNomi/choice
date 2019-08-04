@@ -1,9 +1,10 @@
 package main
 
 import (
-	"./cmd"
 	"fmt"
 	"os"
+
+	"github.com/RyuseiNomi/choice/cmd"
 )
 
 func main() {
