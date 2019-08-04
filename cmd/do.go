@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -23,7 +24,9 @@ func do() *cobra.Command {
 			groupNumber, _ := strconv.Atoi(args[0])
 			members := args[1:]
 			shuffledMembers := makeMembersMap(doShuffle(groupNumber, members))
-			fmt.Println(shuffledMembers)
+			for number, names := range shuffledMembers {
+				fmt.Printf("group name : %d \n menbers : [%s] \n\n", number, strings.Join(names, ", "))
+			}
 		},
 	}
 
