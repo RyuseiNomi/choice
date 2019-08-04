@@ -23,7 +23,11 @@ func do() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			groupNumber, _ := strconv.Atoi(args[0])
 			members := args[1:]
-			doShuffle(groupNumber, members)
+			shuffledMembers := doShuffle(groupNumber, members)
+			sort.Slice(shuffledMembers, func(i, j int) bool {
+				return shuffledMembers[i].Group < shuffledMembers[j].Group
+			})
+			fmt.Println(shuffledMembers)
 		},
 	}
 
