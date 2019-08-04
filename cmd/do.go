@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"math/rand"
+	"sort"
 	"strconv"
 	"time"
 )
@@ -31,23 +32,18 @@ func do() *cobra.Command {
 
 func doShuffle(groupNumber int, inputtedMembers []string) {
 	var members Members
-	//groupMaxCount := len(inputtedMembers) / groupNumber
 	shuffleMembers := inputtedMembers
 
 	rand.Seed(time.Now().UnixNano()) //乱数の初期化
 	rand.Shuffle(len(shuffleMembers), func(i, j int) {
 		shuffleMembers[i], shuffleMembers[j] = shuffleMembers[j], shuffleMembers[i]
 	})
-	//membersの長さ分forを回して全員に番号をランダムで振る
 	for i := range shuffleMembers {
-		name := shuffleMembers[i]
-
-		var member = Member{
-			Name:  name,
-			Group: rand.Intn(groupNumber),
-		}
-
-		members = append(members, member)
+		number := i % groupNumber
+		members = append(members, Member{
+			Name:  shuffleMembers[i],
+			Group: number,
+		})
 	}
 
 	fmt.Println(shuffleMembers)
