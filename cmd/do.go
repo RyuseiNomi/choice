@@ -30,7 +30,7 @@ func do() *cobra.Command {
 	return cmd
 }
 
-func doShuffle(groupNumber int, inputtedMembers []string) {
+func doShuffle(groupNumber int, inputtedMembers []string) Members {
 	var members Members
 	shuffleMembers := inputtedMembers
 
@@ -46,5 +46,5 @@ func doShuffle(groupNumber int, inputtedMembers []string) {
 		})
 	}
 
-	fmt.Println(shuffleMembers)
+	return members
 }
