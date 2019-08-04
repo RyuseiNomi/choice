@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
-
-	"github.com/spf13/cobra"
 )
 
 type Member struct {
@@ -23,29 +23,39 @@ func do() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			groupNumber, _ := strconv.Atoi(args[0])
 			members := args[1:]
-			doShuffle(groupNumber, members)
+			shuffledMembers := makeMembersMap(doShuffle(groupNumber, members))
+			for number, names := range shuffledMembers {
+				fmt.Printf("group name : %d \n menbers : [%s] \n\n", number, strings.Join(names, ", "))
+			}
 		},
 	}
 
 	return cmd
 }
 
-func doShuffle(groupNumber int, inputedMembers []string) {
+func doShuffle(groupNumber int, inputtedMembers []string) Members {
 	var members Members
-	//groupMaxCount := len(inputedMembers) / groupNumber
+	shuffleMembers := inputtedMembers
 
-	//membersの長さ分forを回して全員に番号をランダムで振る
-	for i := range inputedMembers {
-		rand.Seed(time.Now().UnixNano()) //乱数の初期化
-		name := inputedMembers[i]
-
-		var member = Member{
-			Name:  name,
-			Group: rand.Intn(groupNumber),
-		}
-
-		members = append(members, member)
+	rand.Seed(time.Now().UnixNano()) //乱数の初期化
+	rand.Shuffle(len(shuffleMembers), func(i, j int) {
+		shuffleMembers[i], shuffleMembers[j] = shuffleMembers[j], shuffleMembers[i]
+	})
+	for i := range shuffleMembers {
+		number := i % groupNumber
+		members = append(members, Member{
+			Name:  shuffleMembers[i],
+			Group: number,
+		})
 	}
 
-	fmt.Println(members)
+	return members
+}
+
+func makeMembersMap(members Members) map[int][]string {
+	membersMap := make(map[int][]string)
+	for i := 0; i < len(members); i += 1 {
+		membersMap[members[i].Group] = append(membersMap[members[i].Group], members[i].Name)
+	}
+	return membersMap
 }
